@@ -4,10 +4,10 @@ var path = require('path');
 module.exports = {
 	//页面入口配置
 	entry:{
-		main:'./dev/main.js'  
+		game:'./dev/game.js'  
 	},
 	output:{
-		filename:'./bundles/[name].js'
+		filename:'./bundle/[name].js'
 	},
 	module: {
         //加载器配置
