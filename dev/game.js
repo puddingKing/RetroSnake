@@ -7,7 +7,12 @@ var bG = require("../module/retrosnake/background");
 	var height = foodField.height;
 	var ctx = foodField.getContext('2d');
 
+	//data...
+	var color = {
+		bgColor:'#9BCD9B'
+	}
+
 	//paint background
-	bG(ctx,'black',width,height);
-	
+	bG(ctx,color.bgColor,width,height);
+
 })();
