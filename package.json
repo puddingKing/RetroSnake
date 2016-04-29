@@ -1,0 +1,22 @@
+{
+  "name": "retrosnake",
+  "version": "1.0.0",
+  "description": "a tiny game in webpage --retrosnake",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/puddingKing/RetroSnake.git"
+  },
+  "author": "Shane",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/puddingKing/RetroSnake/issues"
+  },
+  "homepage": "https://github.com/puddingKing/RetroSnake#readme",
+  "devDependencies": {
+    "webpack": "^1.13.0"
+  }
+}
