@@ -44,19 +44,18 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var bG = __webpack_require__(1);
-
 	(function() {
 		// body...
+		var bG = __webpack_require__(1);
 		var foodField = document.getElementById('FoodField');
 		var width = foodField.width;
 		var height = foodField.height;
 		var ctx = foodField.getContext('2d');
+		foodField = null;
 		var r = 1;
 		var g = 255;
-		var b = 1;
-
-		//data...
+		var b = 190;
+		var state = 1;
 		var color = {
 			bgColor:'#9BCD9B',
 			snakeColor:''
@@ -68,14 +67,32 @@
 		}	
 		
 		function bg(){
-			bG(ctx,color.bgColor,width,height,r,g,b);
-			r = (r <= 200)?(r+1):(r-1);
-			g = (g >= 20)?(g-1):(g+1);
-			b = (b <= 200)?(b+1):(b-1);
-			window.requestAnimationFrame(bg);	
+			bG(ctx,width,height,r,g,b);
+			if (state == 1) {
+				FangAn1();
+			}else{
+				FangAn0();
+			}
+			window.requestAnimationFrame(bg);
 		}
 		//paint background
 		// var anim = window.requestAnimationFrame(bg);
+		function FangAn1(){
+			r = (r < 255)?(r+1):(255);
+			g = (g > 1)?(g-1):(1);
+			// b = (b > 1)?(b-1):(1);
+			if(r == 255 && g == 1){
+				state = 0;
+			}
+		}
+		function FangAn0(){
+			r = (r > 1)?(r-1):(1);
+			g = (g < 255)?(g+1):(255);
+			// b = (b < 255)?(b+1):(255);
+			if(r == 1 && g == 255){
+				state = 1;
+			}
+		}
 		bg();
 	})();
 
@@ -83,10 +100,10 @@
 /* 1 */
 /***/ function(module, exports) {
 
-	function bG(ctx,color,w,h,i,g,b){
+	function bG(ctx,w,h,i,g,b){
 		ctx.save();
-		ctx.fillStyle = 'rgba('+i+','+g+','+b+',1)';
 		ctx.clearRect(0,0,w,h);
+		ctx.fillStyle = 'rgba('+i+','+g+','+b+',1)';
 		ctx.fillRect(0,0,w,h);
 		ctx.restore();
 	}
