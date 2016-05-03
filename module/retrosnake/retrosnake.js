@@ -7,3 +7,4 @@ var retroSnake = (function(){
 	}
 	return retroSnake;
 })();
+module.exports = retroSnake;
