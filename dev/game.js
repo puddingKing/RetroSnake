@@ -1,51 +1,59 @@
 (function() {
 	// body...
 	var bG = require("../module/retrosnake/background");
+	var GameInit = require("../module/retrosnake/GameInit");
+	var Fruit = require("../module/retrosnake/Fruit");
+
 	var foodField = document.getElementById('FoodField');
 	var width = foodField.width;
 	var height = foodField.height;
 	var ctx = foodField.getContext('2d');
+	var fruit = new Fruit(ctx,width,height);
 	foodField = null;
-	var r = 1;
-	var g = 255;
-	var b = 190;
-	var state = 1;
-	var color = {
-		bgColor:'#9BCD9B',
-		snakeColor:''
-	}
-	var time = {
-		current:Date.now(),
-		last:Date.now(),
-		delta:Date.now()
-	}	
-	
-	function bg(){
-		bG(ctx,width,height,r,g,b);
-		if (state == 1) {
-			FangAn1();
-		}else{
-			FangAn0();
+
+	function anim(){
+		bG(ctx,width,height);
+		fruit.exist();
+		retrosnake.move();
+		if (retrosnake.head.x == fruit.x && retrosnake.head.y == fruit.y) { //snake eat the fruit
+			fruit.init();
+			retrosnake.grow();
 		}
-		window.requestAnimationFrame(bg);
+		if (retrosnake.head.x > 49 || retrosnake.head.y > 49 || retrosnake.head.x < 0 || retrosnake.head.y < 0) { //snake hit the wall
+			document.getElementById("over").style.display = "block"; //remind you game over
+		}else if(hitSelf()){
+			document.getElementById("over").style.display = "block"; 
+		}else{
+			setTimeout(anim,100);
+		}
+		// window.requestAnimationFrame(anim);
 	}
 	//paint background
-	// var anim = window.requestAnimationFrame(bg);
-	function FangAn1(){
-		r = (r < 255)?(r+1):(255);
-		g = (g > 1)?(g-1):(1);
-		// b = (b > 1)?(b-1):(1);
-		if(r == 255 && g == 1){
-			state = 0;
+	var retrosnake = GameInit(ctx,width,height,fruit);
+	anim();
+
+	document.onkeydown = function(event){
+		var e = event || window.event || arguments.callee.caller.arguments[0];
+		if (e && e.keyCode == 38) { //up
+			retrosnake.dir = 0;
+		}
+		if (e && e.keyCode == 39) { //right
+			retrosnake.dir = 1;
+		}
+		if (e && e.keyCode == 40) { //down
+			retrosnake.dir = 2;
+		}
+		if (e && e.keyCode == 37) { //left
+			retrosnake.dir = 3;
 		}
 	}
-	function FangAn0(){
-		r = (r > 1)?(r-1):(1);
-		g = (g < 255)?(g+1):(255);
-		// b = (b < 255)?(b+1):(255);
-		if(r == 1 && g == 255){
-			state = 1;
+	function hitSelf(){
+		var hitself = false;
+		for (var i = 0; i < retrosnake.body.length; i++) {
+			if(retrosnake.body[i].x == retrosnake.head.x && retrosnake.body[i].y == retrosnake.head.y){
+				hitself = true;
+			}
 		}
+		return hitself;
 	}
-	bg();
 })();

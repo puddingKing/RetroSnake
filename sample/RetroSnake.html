@@ -3,9 +3,22 @@
 <head>
 	<title>Retro Snake Game</title>
 	<meta charset="utf-8" />
+	<style type="text/css">
+	*{
+		padding: 0px;
+		margin: 0px;
+	}
+	.wrap{
+		width: 500px;
+		margin: 100px auto;
+	}
+	</style>
 </head>
 <body>
-	<canvas id="FoodField" width="500px" height="500px"></canvas>
+	<div class="wrap">
+		<canvas id="FoodField" width="500px" height="500px"></canvas>
+	</div>
+	<div id="over" style="display: none;">Game over</div>
 	<script type="text/javascript" src="../bundle/game.js"></script>
 </body>
 </html>
