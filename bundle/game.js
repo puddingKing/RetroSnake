@@ -49,19 +49,23 @@
 		var bG = __webpack_require__(1);
 		var GameInit = __webpack_require__(2);
 		var Fruit = __webpack_require__(3);
+		var Score = __webpack_require__(5);
 
 		var foodField = document.getElementById('FoodField');
 		var width = foodField.width;
 		var height = foodField.height;
 		var ctx = foodField.getContext('2d');
 		var fruit = new Fruit(ctx,width,height);
+		var score = new Score(ctx,width,height);
 		foodField = null;
 
 		function anim(){
 			bG(ctx,width,height);
+			score.init();
 			fruit.exist();
 			retrosnake.move();
 			if (retrosnake.head.x == fruit.x && retrosnake.head.y == fruit.y) { //snake eat the fruit
+				score.score += 50;
 				fruit.init();
 				retrosnake.grow();
 			}
@@ -70,12 +74,13 @@
 			}else if(hitSelf()){
 				document.getElementById("over").style.display = "block"; 
 			}else{
-				setTimeout(anim,100);
+				setTimeout(anim,200);
 			}
 			// window.requestAnimationFrame(anim);
 		}
 		//paint background
 		var retrosnake = GameInit(ctx,width,height,fruit);
+		score.init();
 		anim();
 
 		document.onkeydown = function(event){
@@ -247,6 +252,26 @@
 		return retroSnake;
 	})();
 	module.exports = retroSnake;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	function Score(ctx,width,height){
+		this.ctx = ctx;
+		this.width = width;
+		this.height = height;
+		this.score = 0;
+	}
+	Score.prototype.init = function(){
+		var ctx = this.ctx;
+		ctx.save();
+		ctx.font="18px Black Ops One";
+		ctx.fillStyle = "rgba(255,255,255,1)";
+		ctx.fillText('score:'+this.score,30,30);
+		ctx.restore();
+	}
+	module.exports = Score;
 
 /***/ }
 /******/ ]);

@@ -3,19 +3,23 @@
 	var bG = require("../module/retrosnake/background");
 	var GameInit = require("../module/retrosnake/GameInit");
 	var Fruit = require("../module/retrosnake/Fruit");
+	var Score = require("../module/retrosnake/score");
 
 	var foodField = document.getElementById('FoodField');
 	var width = foodField.width;
 	var height = foodField.height;
 	var ctx = foodField.getContext('2d');
 	var fruit = new Fruit(ctx,width,height);
+	var score = new Score(ctx,width,height);
 	foodField = null;
 
 	function anim(){
 		bG(ctx,width,height);
+		score.init();
 		fruit.exist();
 		retrosnake.move();
 		if (retrosnake.head.x == fruit.x && retrosnake.head.y == fruit.y) { //snake eat the fruit
+			score.score += 50;
 			fruit.init();
 			retrosnake.grow();
 		}
@@ -24,12 +28,13 @@
 		}else if(hitSelf()){
 			document.getElementById("over").style.display = "block"; 
 		}else{
-			setTimeout(anim,100);
+			setTimeout(anim,200);
 		}
 		// window.requestAnimationFrame(anim);
 	}
 	//paint background
 	var retrosnake = GameInit(ctx,width,height,fruit);
+	score.init();
 	anim();
 
 	document.onkeydown = function(event){
